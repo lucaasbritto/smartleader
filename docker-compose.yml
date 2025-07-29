@@ -1,0 +1,61 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: laravel_app_smart
+    volumes:
+      - ./backend:/var/www/html
+    ports:
+      - "9000:9000"
+    depends_on:
+      - db
+    networks:
+      - smart-network
+
+  webserver:
+    image: nginx:alpine
+    container_name: laravel_web_smart
+    ports:
+      - "8080:80"
+    volumes:
+      - ./backend:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - backend
+    networks:
+      - smart-network
+
+  db:
+    image: mysql:8.0
+    container_name: laravel_db_smart
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: laravel
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+      - ./_docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - smart-network
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: vue_frontend_smart
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    networks:
+      - smart-network
+
+volumes:
+  dbdata:
+
+networks:
+  smart-network:
+    driver: bridge
