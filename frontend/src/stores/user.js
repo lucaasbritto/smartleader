@@ -1,4 +1,4 @@
-import { login as apiLogin, logout as apiLogout } from '../api/auth'
+import { login as apiLogin, logout as apiLogout, register as apiRegister } from '../api/auth'
 import { getUserProfile } from '../api/user'
 
 const state = {
@@ -40,6 +40,14 @@ const actions = {
     } catch (err) {
       dispatch('logout')
     }
+  },
+  async register({ commit }, data) {
+    const { token, user } = await apiRegister(data)
+    commit('setToken', token)
+    commit('setUser', user)
+    localStorage.setItem('token', token)
+    localStorage.setItem('user', JSON.stringify(user))
+    return { token, user }
   },
   logout({ commit }) {
     apiLogout()

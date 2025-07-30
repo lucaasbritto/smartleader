@@ -1,4 +1,11 @@
+import { login } from '@/services/auth'
+import AuthForm from '@/components/Auth/AuthForm.vue'
+
 export default {
+  name: 'LoginView',
+  components: {
+    AuthForm
+  },
   data() {
     return {
       email: '',
@@ -8,17 +15,12 @@ export default {
     }
   },
   methods: {
-    async handleLogin() {
+    async onLogin(payload) {
       this.error = null
       this.loading = true
-      try {        
-        await this.$store.dispatch('user/login', { email: this.email, password: this.password })
-            this.$router.push('/')        
-      } catch (err) {
-        this.error = err.message || 'Erro ao fazer login'
-      } finally {
-        this.loading = false
-      }
+       const err = await login(payload)
+      if (err) this.error = err
+      this.loading = false
     }
   }
 }

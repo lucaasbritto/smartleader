@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import store from '../stores'
 import LoginView from '../views/LoginView/LoginView.vue'
 import DashboardView from '../views/DashboardView/DashboardView.vue'
+import RegisterView from '../views/RegisterView/RegisterView.vue'
 
 Vue.use(VueRouter)
 
@@ -11,6 +12,11 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: LoginView,
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: RegisterView
   },
   {
     path: '/',
@@ -43,7 +49,7 @@ router.beforeEach(async (to, from, next) => {
     return next('/login')
   }
 
-  if (to.path === '/login' && isAuthenticated) {
+   if ((to.path === '/login' || to.path === '/register') && isAuthenticated) {
     return next('/')
   }
 

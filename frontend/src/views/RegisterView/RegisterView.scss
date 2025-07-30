@@ -1,0 +1,67 @@
+.login-page {
+  position: relative;
+  min-height: 100vh;
+  background-color: #001f3f;
+  background-image: url('@/assets/images/bg-smart.avif');
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.login-card {
+  color: #eee; 
+  border-radius: 16px;
+  box-shadow: 0 0 30px rgba(0, 128, 255, 0.6);
+  max-width: 420px;
+  width: 100%;
+  position: relative;
+  z-index: 10;
+  padding: 2rem 2.5rem;
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: 0 0 50px rgba(0, 128, 255, 0.9);
+  }
+}
+
+.logo {
+  width: 160px;
+  margin-bottom: 1rem;
+   filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.7));
+}
+
+.text-grey {
+  color: #bbb;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+.btn-submit {
+  background-color: #f05065;
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px #0080ff88;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover:not(:disabled) {
+    background-color: #005bb5;
+    box-shadow: 0 8px 18px #005bb588;
+  }
+}
+
+.q-banner.bg-red-2 {
+  background-color: #b22222 !important;
+  color: #fff !important;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.text-grey-6 {
+  color: #777 !important;
+}

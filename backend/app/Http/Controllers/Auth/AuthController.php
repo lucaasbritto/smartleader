@@ -3,33 +3,36 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Login\LoginRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Tymon\JWTAuth\Facades\JWTAuth;
-use App\Events\UserLoggedIn;
+use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RegisterRequest;
+use App\Services\Auth\AuthService;
 
 class AuthController extends Controller
 {
-    public function login(LoginRequest $request)
-    {        
-        $input = $request->validated();
-        
-        $credentials = [
-            'email' => $input['email'],
-            'password' => $input['password'],
-        ];
+    protected $authService;
 
-        if (!$token = JWTAuth::attempt($credentials)) {
-            return response()->json(['error' => 'Email ou senha inválidos'], 401);
+    public function __construct(AuthService $authService)
+    {
+        $this->authService = $authService;
+    }
+
+
+    public function login(LoginRequest $request){        
+        $response = $this->authService->login($request->validated());
+        
+        if (isset($response['error'])) {
+            return response()->json(['error' => $response['error']], $response['status']);
         }
 
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth('api')->factory()->getTTL() * 60,
-            'user' => auth('api')->user(),
-        ]);
+        return response()->json($response);
+    }
+
+
+    public function register(RegisterRequest $request){
+        $response = $this->authService->register($request->validated());
+
+        return response()->json($response);
     }
 
     public function me(Request $request)
