@@ -61,7 +61,11 @@
   </div>
 </template>
 
-<script setup>
+<script>
+import loginViewScript from './LoginView.js'
+
+export default loginViewScript
+
 
 </script>
 

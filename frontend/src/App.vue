@@ -1,9 +1,11 @@
 <template>
-  <LoginView />
+  <router-view />
 </template>
 
-<script setup>
-  import LoginView from './views/LoginView/LoginView.vue'
+<script >
+  export default {
+    name: 'App',
+  }
 </script>
 
 <style>
