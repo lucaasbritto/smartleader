@@ -9,7 +9,7 @@
 </template>
 
 <script >
-import AppHeader from '@/components/Header.vue'
+import AppHeader from '@/components/Layout/Header.vue'
 import { mapState } from 'vuex'
 
   export default {
