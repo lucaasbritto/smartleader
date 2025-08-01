@@ -4,8 +4,8 @@ namespace App\Services\Task;
 
 use App\Models\Task;
 use Illuminate\Support\Facades\Auth;
-use App\Mail\TaskNotificationMail;
 use Illuminate\Support\Facades\Mail;
+use App\Events\TaskStatus;
 
 class TaskService{
     public function getTasks(int $perPage = 10, int $page = 1)
@@ -53,14 +53,20 @@ class TaskService{
             'company_id' => $user->company_id,
         ]);
 
-        Mail::to($user->email)
-        ->queue(new TaskNotificationMail($task, 'criada'));
+        event(new TaskStatus($task, 'criada'));
 
         return $task;
     }
 
     public function updateTask(Task $task, array $data){
+        $oldStatus = $task->status;
+
         $task->update($data);
+
+        if ($oldStatus !== 'concluída' && $task->status === 'concluída') {
+            event(new TaskStatus($task, 'concluída'));
+        }
+
         return $task;
     }
 
