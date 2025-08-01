@@ -15,4 +15,18 @@ class TaskService{
             ->orderBy('created_at', 'desc')
             ->paginate($perPage, ['*'], 'page', $page);
     }
+
+    public function createTask(array $data){
+        $user = Auth::user();
+
+        return Task::create([
+            'title' => $data['title'],
+            'description' => $data['description'] ?? '',
+            'status' => $data['status'],
+            'priority' => $data['priority'],
+            'deadline' => $data['deadline'] ?? null,
+            'user_id' => $user->id,
+            'company_id' => $user->company_id,
+        ]);
+    }
 }

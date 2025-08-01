@@ -1,6 +1,20 @@
 <template>
   <div class="col-8 q-pa-xl">   
 
+    <div class="col-12 col-md-8 q-mt-md">
+         <div class="row justify-end q-mb-md">
+        <q-btn
+          label="Nova Tarefa"
+          icon="add"
+          style="background: #0083a0; color: white"
+          @click="showCreateDialog = true"
+          unelevated          
+          dense
+          size="sm"
+        />
+         </div>
+    </div>
+
     <q-card flat bordered class="shadow-3 q-pt-md">
       <q-table
         :data="tasks"
@@ -103,6 +117,12 @@
           </div>
         </template>
       </q-table>
+
+      <task-dialog
+        v-model="showCreateDialog"
+        :loading="createLoading"
+        @submit="insertTask"
+      />
     </q-card>
 
   </div>

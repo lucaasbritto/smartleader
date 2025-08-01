@@ -6,4 +6,8 @@ export default {
     return response.data
   },
 
+  async create(data) {
+    const response = await api.post('/tasks', data)
+    return response.data
+  },
 }

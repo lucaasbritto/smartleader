@@ -7,6 +7,7 @@ use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Task\TaskService;
+use App\Http\Requests\Task\TaskStoreRequest;
 use Illuminate\Http\JsonResponse;
 
 class TaskController extends Controller
@@ -24,5 +25,10 @@ class TaskController extends Controller
         $tasks = $this->taskService->getTasks($perPage, $page);
 
         return response()->json($tasks);
+    }
+
+    public function store(TaskStoreRequest $request){
+         $task = $this->taskService->createTask($request->validated());
+        return response()->json($task, 201);
     }
 }

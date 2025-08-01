@@ -16,11 +16,20 @@ const actions = {
   async fetchTasks({ commit }, params = {}) {
     try {
       const response = await tasksApi.getAll(params)
-      console.log('Response da API:', response)
       commit('SET_TASKS', response)
 
     } catch (error) {
       console.error('Erro ao buscar tarefas:', error)
+    }
+  },
+
+  async createTask({ dispatch }, data) {
+    try {
+      await tasksApi.create(data)
+      await dispatch('fetchTasks')
+    } catch (error) {
+      console.error('Erro ao criar tarefa:', error)
+      throw error
     }
   }
 }
