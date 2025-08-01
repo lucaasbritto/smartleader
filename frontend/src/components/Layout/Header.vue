@@ -68,7 +68,7 @@
           </q-menu>
         </q-btn>
 
-        <q-separator vertical color="grey-8" class="q-mx-sm"/>
+        <q-separator v-if="user?.is_admin" vertical color="grey-8" class="q-mx-sm"/>
 
         <q-btn
           flat
