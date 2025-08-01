@@ -2,12 +2,16 @@ import { mapGetters, mapActions } from 'vuex'
 import { getStatusColor, getPriorityColor, formatDateBR } from '@/utils/taskUtils';
 import { notifySuccess, notifyError } from '@/utils/notify'
 import TaskDialog from '@/components/TaskDialog/TaskDialog.vue'
+import TaskView from '@/components/TaskView/TaskView.vue'
+import TaskViewDialog from '@/components/TaskViewDialog/TaskViewDialog.vue'
 
 export default {
   name: 'DashboardView',
 
   components: { 
-    TaskDialog 
+    TaskDialog,
+    TaskView, 
+    TaskViewDialog,
   },
 
   data() {
@@ -17,6 +21,8 @@ export default {
       loading: false,
       isEditMode: false,
       editTask: null, 
+      dialogViewVisible: false,
+      selectedTask: null,
       form: {
         title: '',
         description: '',
@@ -33,8 +39,8 @@ export default {
         { name: 'id', label: 'ID', field: 'id', align: 'center' },
         { name: 'title', label: 'Título', field: 'title', align: 'center' },
         { name: 'description', label: 'Descrição', field: 'description', align: 'center' },
-        { name: 'status', label: 'Status', field: 'status', align: 'center' },
         { name: 'priority', label: 'Prioridade', field: 'priority', align: 'center' },
+        { name: 'status', label: 'Status', field: 'status', align: 'center' },
         { name: 'deadline', label: 'Data Limite', field: row => formatDateBR(row.deadline), align: 'center' },       
         { name: 'actions', label: 'Ações', field: 'actions', align: 'center' },
       ],      
@@ -80,37 +86,6 @@ export default {
       }
     },
 
-    openCreateDialog() {
-      this.isEditMode = false
-      this.resetForm()
-      this.showCreateDialog = true
-    },
-
-  openEditDialog(task) {
-    this.isEditMode = true
-    this.editTask = { ...task } 
-    this.form = {
-      title: task.title,
-      description: task.description,
-      status: task.status,
-      priority: task.priority,
-      deadline: task.deadline
-    }
-    this.showCreateDialog = true
-  },
-
-    resetForm() {
-      this.form = {
-        title: '',
-        description: '',
-        status: 'Pendente',
-        priority: 'Média',
-        deadline: ''
-      },
-      this.editTask = null
-      this.isEditMode = false
-    },
-
     async onRequest({ pagination }) {
       this.loading = true;
       try {
@@ -128,7 +103,44 @@ export default {
       } finally {
         this.loading = false;
       }
-    }
+    },
+
+    openCreateTask() {
+      this.isEditMode = false
+      this.resetForm()
+      this.showCreateDialog = true
+    },
+
+    openEditTask(task) {
+      this.isEditMode = true
+      this.editTask = { ...task } 
+      this.form = {
+        title: task.title,
+        description: task.description,
+        status: task.status,
+        priority: task.priority,
+        deadline: task.deadline
+      }
+      this.showCreateDialog = true
+    },
+
+    openViewTask(task) {
+      this.selectedTask = task
+      this.dialogViewVisible = true
+    },
+
+    resetForm() {
+      this.form = {
+        title: '',
+        description: '',
+        status: 'Pendente',
+        priority: 'Média',
+        deadline: ''
+      },
+      this.editTask = null
+      this.isEditMode = false
+    },
+
   },
 
   mounted() {

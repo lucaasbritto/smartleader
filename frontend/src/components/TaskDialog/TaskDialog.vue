@@ -1,7 +1,7 @@
 <template>
   <q-dialog v-model="show" persistent>
     <q-card style="min-width: 600px;">
-      <q-card-section class="row items-center q-pb-none">
+      <q-card-section class="row items-center q-pb-none bg-dark text-white">
         <div class="text-h6">{{ isEdit ? 'Editar Tarefa' : 'Nova Tarefa' }}</div>
          <q-space />
           <q-btn icon="close" flat round dense @click="close" />

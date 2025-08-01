@@ -6,8 +6,8 @@
         <q-btn
           label="Nova Tarefa"
           icon="add"
-          style="background: #0083a0; color: white"
-          @click="openCreateDialog"
+          color="dark"
+          @click="openCreateTask"
           unelevated          
           dense
           size="sm"
@@ -44,18 +44,18 @@
           </q-td>
         </template>
       
-        <template v-slot:body-cell-status="props">
-          <q-td :props="props">
-            <q-badge :color="getStatusColor(props.row)" rounded>
-              {{  props.row.status }}
-            </q-badge>
-          </q-td>
-        </template>
-
         <template v-slot:body-cell-priority="props">
           <q-td :props="props">
             <q-badge :color="getPriorityColor(props.row)" rounded>
               {{  props.row.priority }}
+            </q-badge>
+          </q-td>
+        </template>
+
+        <template v-slot:body-cell-status="props">
+          <q-td :props="props">
+            <q-badge :color="getStatusColor(props.row)" rounded>
+              {{  props.row.status }}
             </q-badge>
           </q-td>
         </template>
@@ -68,7 +68,7 @@
                 dense
                 icon="visibility"
                 color="primary"
-                @click="openTaskView(props.row)"
+                @click="openViewTask(props.row)"
                 size="sm"
               />
 
@@ -79,7 +79,7 @@
                 flat
                 icon="edit"
                 color="blue"
-                @click="openEditDialog(props.row)"
+                @click="openEditTask(props.row)"
                 title="Editar tarefa"
                 size="sm"
               />
@@ -126,6 +126,12 @@
         @submit="insertTask"
         @cancel="resetForm"        
       />
+
+      <task-view-dialog
+        v-model="dialogViewVisible"
+        :task="selectedTask"
+      />
+
     </q-card>
 
   </div>

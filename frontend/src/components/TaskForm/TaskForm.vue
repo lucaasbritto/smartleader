@@ -67,7 +67,7 @@
       />
       <q-btn
         :label="isEditMode ? 'Editar' : 'Salvar'"
-        color="primary"
+        color="dark"
         type="submit"
         dense
         :loading="loading"
