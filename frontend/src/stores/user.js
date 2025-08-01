@@ -1,9 +1,10 @@
 import { login as apiLogin, logout as apiLogout, register as apiRegister } from '../api/auth'
-import { getUserProfile } from '../api/user'
+import { getUserProfile, Usercreate } from '../api/user'
 
 const state = {
   user: JSON.parse(localStorage.getItem('user')) || null,
   token: localStorage.getItem('token') || null,
+  users: [], 
 }
 
 const getters = {
@@ -21,6 +22,9 @@ const mutations = {
   clearAuth(state) {
     state.user = null
     state.token = null
+  },
+  addUser(state, user) {
+    state.users.push(user)
   },
 }
 
@@ -48,6 +52,11 @@ const actions = {
     localStorage.setItem('token', token)
     localStorage.setItem('user', JSON.stringify(user))
     return { token, user }
+  },
+  async createUser({ commit }, data) {  
+     const response = await Usercreate(data)   
+    
+    commit('addUser', response) 
   },
   logout({ commit }) {
     apiLogout()

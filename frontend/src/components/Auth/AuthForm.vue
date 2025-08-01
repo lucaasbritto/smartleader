@@ -1,6 +1,6 @@
 <template>
   <q-form @submit.prevent="onSubmit" ref="form">
-    <q-input v-model="form.name" label="Nome" v-if="mode === 'register'" filled :disable="loading" lazy-rules stack-label
+    <q-input v-model="form.name" label="Nome" v-if="['register', 'registerUser'].includes(mode)" filled :disable="loading" lazy-rules stack-label
              :rules="[val => !!val || 'Nome é obrigatório']" :error="!!errors.name" :error-message="errors.name ? errors.name[0] : ''"/>  
 
     <q-input v-model="form.email" label="Email" type="email" filled :disable="loading" lazy-rules stack-label
@@ -9,9 +9,13 @@
     <q-input v-model="form.password" label="Senha" type="password" filled :disable="loading" lazy-rules stack-label
              :rules="[val => !!val || 'Senha é obrigatória']" :error="!!errors.password" :error-message="errors.password ? errors.password[0] : ''"/>
 
-    <q-input v-if="mode === 'register'" v-model="form.password_confirmation" filled :disable="loading" lazy-rules stack-label
+    <q-input v-if="['register', 'registerUser'].includes(mode)" v-model="form.password_confirmation" filled :disable="loading" lazy-rules stack-label
              label="Confirme a senha" type="password"
              :rules="[val => !!val || 'Confirmação obrigatória']" :error="!!errors.password_confirmation" :error-message="errors.password_confirmation ? errors.password_confirmation[0] : ''"/>
+
+    <q-checkbox
+      v-if="mode === 'registerUser'" v-model="form.is_admin" label="É administrador?" :disable="loading"
+    />
 
     <q-input v-if="mode === 'register'" v-model="form.company_name" filled :disable="loading" lazy-rules stack-label
              label="Empresa" :rules="[val => !!val || 'Empresa obrigatória']" :error="!!errors.company_name" :error-message="errors.company_name ? errors.company_name[0] : ''"/>
@@ -30,9 +34,6 @@
         />
     </div>
 
-    <div v-if="error" class="text-negative q-mt-sm">
-      {{ error }}
-    </div>
   </q-form>
 </template>
 
@@ -59,13 +60,23 @@ export default {
         password: '',
         password_confirmation: '',
         company_name: '',
-        company_identifier: ''
+        company_identifier: '',
+        is_admin: false
       }
     }
   },
   computed: {
     buttonLabel() {
-      return this.mode === 'register' ? 'Registrar' : 'Entrar'
+      switch (this.mode) {
+        case 'login':
+          return 'Entrar'
+        case 'register':
+          return 'Registrar'
+        case 'registerUser':
+          return 'Criar Usuário'
+        default:
+          return 'Enviar'
+      }
     }
   },
   methods: {

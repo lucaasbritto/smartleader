@@ -31,6 +31,46 @@
         <q-separator vertical color="grey-8" class="q-mx-sm"/>
 
         <q-btn
+          v-if="user?.is_admin"
+          flat
+          dense
+          icon="settings"
+          color="grey-4"
+          size="sm"
+        >
+          <q-menu 
+            v-model="settingsMenu"           
+            transition-show="jump-down"
+            transition-hide="jump-up"
+            class="q-mt-md"
+            cover auto-close
+            >
+            <q-list style="min-width: 200px">
+              <q-item class="bg-grey text-white">
+              <q-item-section avatar>
+                <q-icon name="settings" size="sm"/>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label class="text-subtitle4">Configurações</q-item-label>
+              </q-item-section>
+            </q-item>
+
+            
+              <q-item clickable v-close-popup @click="showCreateUserModal = true">
+                <q-item-section avatar>
+                  <q-icon name="person_add" />
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>Criar Usuário</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
+
+        <q-separator vertical color="grey-8" class="q-mx-sm"/>
+
+        <q-btn
           flat
           dense
           icon="logout"
@@ -41,15 +81,33 @@
         />
       </div>
 
+      <user-create-modal
+        :show.sync="showCreateUserModal"        
+      />
     </div>
   </q-header>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import UserCreateModal from '@/components/UserCreateModal.vue'
 
 export default {
   name: 'AppHeader',
+
+  components: { 
+    UserCreateModal
+  },
+
+  data() {
+    return {      
+      settingsMenu: false,
+      loading: false,
+      showCreateUserModal: false,
+      error: '',
+      errors: {}
+    }
+  },
 
   computed: {
     ...mapState('user', ['user'])
@@ -61,6 +119,11 @@ export default {
     async handleLogout() {
       await this.logout() 
       this.$router.push('/login')
+    },
+
+     openCreateUserModal() {
+      console.log("teste");
+      this.showUserDialog = true
     }
   }
 }
