@@ -1,9 +1,9 @@
 import { mapGetters, mapActions } from 'vuex'
 import { getStatusColor, getPriorityColor, formatDateBR } from '@/utils/taskUtils';
 import { notifySuccess, notifyError } from '@/utils/notify'
-import TaskDialog from '@/components/TaskDialog/TaskDialog.vue'
-import TaskView from '@/components/TaskView/TaskView.vue'
-import TaskViewDialog from '@/components/TaskViewDialog/TaskViewDialog.vue'
+import TaskDialog from '@/components/Task/TaskDialog/TaskDialog.vue'
+import TaskView from '@/components/Task/TaskView/TaskView.vue'
+import TaskViewDialog from '@/components/Task/TaskViewDialog/TaskViewDialog.vue'
 
 export default {
   name: 'DashboardView',

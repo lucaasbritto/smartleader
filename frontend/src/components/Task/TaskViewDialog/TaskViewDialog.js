@@ -1,4 +1,4 @@
-import TaskView from '@/components/TaskView/TaskView.vue'
+import TaskView from '@/components/Task/TaskView/TaskView.vue'
 
 export default {
   name: 'TaskViewDialog',
