@@ -15,6 +15,8 @@ export default {
       createLoading: false,
       showCreateDialog: false,
       loading: false,
+      isEditMode: false,
+      editTask: null, 
       form: {
         title: '',
         description: '',
@@ -53,23 +55,49 @@ export default {
     getStatusColor,
     getPriorityColor,
 
-    ...mapActions('tasks', ['createTask', 'fetchTasks']),
+    ...mapActions('tasks', ['createTask', 'fetchTasks','updateTask']),
 
     async insertTask(data) {
       this.createLoading = true;
       try {
+        if(this.isEditMode && this.editTask) {        
+        await this.updateTask({ id: this.editTask.id, data })
+        notifySuccess('Tarefa atualizada com sucesso!')
+      } else {
         await this.createTask(data)
 
-        notifySuccess('Tarefa cadastrada com sucesso!')        
-        this.showCreateDialog = false
-        this.resetForm()
+        notifySuccess('Tarefa cadastrada com sucesso!')
+      }
+
+      this.showCreateDialog = false
+      this.resetForm()
+      this.editTask = null
 
       } catch (error) {
-          notifyError('Erro ao Criar a tarefa')
+          notifyError('Erro ao salvar a tarefa')
       }finally {
         this.createLoading = false; 
       }
     },
+
+    openCreateDialog() {
+      this.isEditMode = false
+      this.resetForm()
+      this.showCreateDialog = true
+    },
+
+  openEditDialog(task) {
+    this.isEditMode = true
+    this.editTask = { ...task } 
+    this.form = {
+      title: task.title,
+      description: task.description,
+      status: task.status,
+      priority: task.priority,
+      deadline: task.deadline
+    }
+    this.showCreateDialog = true
+  },
 
     resetForm() {
       this.form = {
@@ -78,7 +106,9 @@ export default {
         status: 'Pendente',
         priority: 'Média',
         deadline: ''
-      }
+      },
+      this.editTask = null
+      this.isEditMode = false
     },
 
     async onRequest({ pagination }) {

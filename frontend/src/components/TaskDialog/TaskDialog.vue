@@ -11,6 +11,7 @@
         <task-form
           :initialData="taskData"
           :loading="loading"
+          :is-edit-mode="isEditMode"
           @submit="handleSubmit"
           @cancel="close"
         />

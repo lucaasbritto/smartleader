@@ -29,4 +29,10 @@ class TaskService{
             'company_id' => $user->company_id,
         ]);
     }
+
+    public function updateTask(Task $task, array $data){
+        $task->update($data);
+        return $task;
+    }
+    
 }

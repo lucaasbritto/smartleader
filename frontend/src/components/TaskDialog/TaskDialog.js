@@ -6,7 +6,11 @@ export default {
   props: {
     value: { type: Boolean, default: false },
     taskData: { type: Object, default: () => null },
-    loading: { type: Boolean, default: false }
+    loading: { type: Boolean, default: false },
+    isEditMode: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Task\TaskService;
 use App\Http\Requests\Task\TaskStoreRequest;
+use App\Http\Requests\Task\TaskUpdateRequest;
 use Illuminate\Http\JsonResponse;
 
 class TaskController extends Controller
@@ -30,5 +31,12 @@ class TaskController extends Controller
     public function store(TaskStoreRequest $request){
          $task = $this->taskService->createTask($request->validated());
         return response()->json($task, 201);
+    }
+
+
+    public function update(TaskUpdateRequest $request, Task $task){
+        $updatedTask = $this->taskService->updateTask($task, $request->validated());
+
+        return response()->json($updatedTask);
     }
 }

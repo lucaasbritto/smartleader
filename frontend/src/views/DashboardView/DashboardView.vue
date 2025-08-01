@@ -7,7 +7,7 @@
           label="Nova Tarefa"
           icon="add"
           style="background: #0083a0; color: white"
-          @click="showCreateDialog = true"
+          @click="openCreateDialog"
           unelevated          
           dense
           size="sm"
@@ -120,8 +120,11 @@
 
       <task-dialog
         v-model="showCreateDialog"
+        :taskData="editTask"
         :loading="createLoading"
+        :is-edit-mode="isEditMode"
         @submit="insertTask"
+        @cancel="resetForm"        
       />
     </q-card>
 

@@ -14,7 +14,11 @@ export default {
     loading: { 
       type: Boolean,
       default: false,
-    },   
+    },
+    isEditMode: {
+      type: Boolean,
+      default: false
+    }   
   },
   data() {
     const today = new Date()

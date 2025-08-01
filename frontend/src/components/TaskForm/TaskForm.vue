@@ -66,7 +66,7 @@
         :disable="loading"
       />
       <q-btn
-        label="Salvar"
+        :label="isEditMode ? 'Editar' : 'Salvar'"
         color="primary"
         type="submit"
         dense

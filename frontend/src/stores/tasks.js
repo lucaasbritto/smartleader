@@ -9,7 +9,19 @@ const mutations = {
   SET_TASKS(state, response) {
     state.tasks = response.data
     state.total = response.total
+  },
+
+  ADD_TASK(state, task) {
+    state.tasks.unshift(task)
+  },
+
+  UPDATE_TASK(state, updatedTask) {
+    const index = state.tasks.findIndex(t => t.id === updatedTask.id)
+    if (index !== -1) {
+      state.tasks.splice(index, 1, updatedTask)
+    }
   }
+
 }
 
 const actions = {
@@ -23,15 +35,26 @@ const actions = {
     }
   },
 
-  async createTask({ dispatch }, data) {
+  async createTask({ commit }, data) {
     try {
-      await tasksApi.create(data)
-      await dispatch('fetchTasks')
+      const response = await tasksApi.create(data)
+      commit('ADD_TASK', response)
     } catch (error) {
       console.error('Erro ao criar tarefa:', error)
       throw error
     }
+  },
+
+  async updateTask({ commit }, { id, data }) {
+    try {
+      const response = await tasksApi.update(id, data)
+      commit('UPDATE_TASK', response)
+    } catch (error) {
+      console.error('Erro ao atualizar tarefa:', error)
+      throw error
+    }
   }
+
 }
 
 const getters = {
