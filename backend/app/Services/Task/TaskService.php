@@ -8,10 +8,32 @@ use Illuminate\Support\Facades\Auth;
 class TaskService{
     public function getTasks(int $perPage = 10, int $page = 1)
     {
-       $user = Auth::user();
+        $user = Auth::user();
+        $request = request();
 
-        return Task::where('company_id', $user->company_id)
-            ->with(['user'])
+        $query = Task::where('company_id', $user->company_id);
+
+        if ($request->filled('title')) {
+            $query->where('title', 'like', '%' . $request->title . '%');
+        }
+
+        if ($request->filled('description')) {
+            $query->where('description', 'like', '%' . $request->description . '%');
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('priority')) {
+            $query->where('priority', $request->priority);
+        }
+
+        if ($request->filled('date')) {
+            $query->whereDate('deadline', $request->date);
+        }
+
+        return $query->with(['user'])
             ->orderBy('created_at', 'desc')
             ->paginate($perPage, ['*'], 'page', $page);
     }

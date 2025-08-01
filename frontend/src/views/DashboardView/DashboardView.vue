@@ -1,8 +1,13 @@
 <template>
-  <div class="col-8 q-pa-xl">   
+  <div class="col-8 q-pl-xl q-pr-xl">   
 
     <div class="col-12 col-md-8 q-mt-md">
-         <div class="row justify-end q-mb-md">
+      <task-filters
+        :filters="filters"
+        @apply-filters="applyFilters"
+      />
+
+      <div class="row justify-end q-mt-md q-mb-md">          
         <q-btn
           label="Nova Tarefa"
           icon="add"
@@ -12,7 +17,7 @@
           dense
           size="sm"
         />
-         </div>
+      </div>
     </div>
 
     <q-card flat bordered class="shadow-3 q-pt-md">

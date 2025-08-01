@@ -5,6 +5,7 @@ import TaskDialog from '@/components/Task/TaskDialog/TaskDialog.vue'
 import TaskView from '@/components/Task/TaskView/TaskView.vue'
 import TaskViewDialog from '@/components/Task/TaskViewDialog/TaskViewDialog.vue'
 import ConfirmDeleteDialog from '@/components/ConfirmDeleteDialog/ConfirmDeleteDialog.vue'
+import TaskFilters from '@/components/Task/TaskFilters/TaskFilters.vue'
 
 export default {
   name: 'DashboardView',
@@ -13,7 +14,8 @@ export default {
     TaskDialog,
     TaskView, 
     TaskViewDialog,
-    ConfirmDeleteDialog
+    ConfirmDeleteDialog,
+    TaskFilters
   },
 
   data() {
@@ -34,6 +36,13 @@ export default {
         status: 'Pendente',
         priority: 'Média',
         deadline: ''
+      },
+      filters: {
+        title: '',
+        description: '',
+        status: null,
+        priority: null,
+        date: null
       },
       pagination: {
         page: 1,
@@ -96,10 +105,13 @@ export default {
       try {
         this.pagination = { ...pagination }
 
-         await this.fetchTasks({
+        const params = {
+          ...this.filters,
           page: pagination.page,
-          per_page: pagination.rowsPerPage,
-        });
+          per_page: pagination.rowsPerPage
+        };
+
+        await this.fetchTasks(params);
 
         this.pagination.rowsNumber = this.total;
 
@@ -124,6 +136,16 @@ export default {
       }
     },
 
+    onFilter() {
+      this.pagination.page = 1;
+      this.onRequest({ pagination: this.pagination });
+    },
+
+    applyFilters(newFilters) {
+      this.filters = newFilters;
+      this.pagination.page = 1;
+      this.onRequest({ pagination: this.pagination });
+    },
 
     openCreateTask() {
       this.isEditMode = false
@@ -164,6 +186,18 @@ export default {
       },
       this.editTask = null
       this.isEditMode = false
+    },
+
+    resetFilters() {
+      this.filters = {
+        title: '',
+        description: '',
+        status: null,
+        priority: null,
+        date: null
+      };
+      this.pagination.page = 1;
+      this.onRequest({ pagination: this.pagination });
     },
 
   },
