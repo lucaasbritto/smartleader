@@ -39,4 +39,13 @@ class TaskController extends Controller
 
         return response()->json($updatedTask);
     }
+
+    public function destroy($id){
+        try {
+            $this->taskService->deleteTask($id);
+            return response()->json(['message' => 'Tarefa excluída com sucesso.']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Erro ao excluir a tarefa.'], 500);
+        }
+    }
 }

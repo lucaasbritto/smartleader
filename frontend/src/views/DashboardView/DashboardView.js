@@ -4,6 +4,7 @@ import { notifySuccess, notifyError } from '@/utils/notify'
 import TaskDialog from '@/components/Task/TaskDialog/TaskDialog.vue'
 import TaskView from '@/components/Task/TaskView/TaskView.vue'
 import TaskViewDialog from '@/components/Task/TaskViewDialog/TaskViewDialog.vue'
+import ConfirmDeleteDialog from '@/components/ConfirmDeleteDialog/ConfirmDeleteDialog.vue'
 
 export default {
   name: 'DashboardView',
@@ -12,6 +13,7 @@ export default {
     TaskDialog,
     TaskView, 
     TaskViewDialog,
+    ConfirmDeleteDialog
   },
 
   data() {
@@ -23,6 +25,9 @@ export default {
       editTask: null, 
       dialogViewVisible: false,
       selectedTask: null,
+      deleteDialog: false,
+      taskToDelete: null,
+      deleteLoading: false,
       form: {
         title: '',
         description: '',
@@ -61,7 +66,7 @@ export default {
     getStatusColor,
     getPriorityColor,
 
-    ...mapActions('tasks', ['createTask', 'fetchTasks','updateTask']),
+    ...mapActions('tasks', ['createTask', 'fetchTasks','updateTask','deleteTask']),
 
     async insertTask(data) {
       this.createLoading = true;
@@ -105,6 +110,21 @@ export default {
       }
     },
 
+    async confirmDeleteTask() {
+      this.deleteLoading = true
+      try {
+        await this.deleteTask(this.taskToDelete.id)
+        notifySuccess('Tarefa excluída com sucesso!')
+        this.deleteDialog = false
+        this.taskToDelete = null
+      } catch (error) {
+        notifyError('Erro ao excluir tarefa.')
+      } finally {
+        this.deleteLoading  = false        
+      }
+    },
+
+
     openCreateTask() {
       this.isEditMode = false
       this.resetForm()
@@ -127,6 +147,11 @@ export default {
     openViewTask(task) {
       this.selectedTask = task
       this.dialogViewVisible = true
+    },
+
+    openDeleteTask(task) {
+      this.taskToDelete = task
+      this.deleteDialog = true
     },
 
     resetForm() {

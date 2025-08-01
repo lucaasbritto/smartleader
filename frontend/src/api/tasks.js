@@ -16,4 +16,9 @@ export default {
     return response.data
   },
 
+  async delete(id) {
+    const response = await api.delete(`/tasks/${id}`)
+    return response.data
+  }
+
 }

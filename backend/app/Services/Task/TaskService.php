@@ -34,5 +34,10 @@ class TaskService{
         $task->update($data);
         return $task;
     }
+
+    public function deleteTask($id){
+        $task = Task::findOrFail($id);
+        $task->delete();
+    }
     
 }

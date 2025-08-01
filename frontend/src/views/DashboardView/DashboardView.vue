@@ -103,7 +103,7 @@
               flat
               icon="delete"
               color="red"
-              @click="confirmRemove(props.row.id)"
+              @click="openDeleteTask(props.row)"
               title="Remover tarefa"
               size="sm"
             />
@@ -130,6 +130,13 @@
       <task-view-dialog
         v-model="dialogViewVisible"
         :task="selectedTask"
+      />
+
+      <confirm-delete-dialog
+        v-model="deleteDialog"
+        :task="taskToDelete"
+        :loading="deleteLoading"
+        @confirm="confirmDeleteTask"
       />
 
     </q-card>

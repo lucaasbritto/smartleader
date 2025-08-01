@@ -20,6 +20,11 @@ const mutations = {
     if (index !== -1) {
       state.tasks.splice(index, 1, updatedTask)
     }
+  },
+
+  REMOVE_TASK(state, taskId) {
+    state.tasks = state.tasks.filter(t => t.id !== taskId)
+    state.total -= 1
   }
 
 }
@@ -53,7 +58,17 @@ const actions = {
       console.error('Erro ao atualizar tarefa:', error)
       throw error
     }
-  }
+  },
+
+  async deleteTask({ commit }, taskId) {
+    try {
+      await tasksApi.delete(taskId)
+      commit('REMOVE_TASK', taskId)
+    } catch (error) {
+      console.error('Erro ao Excluir a tarefa:', error)
+      throw error
+    }
+  },
 
 }
 
