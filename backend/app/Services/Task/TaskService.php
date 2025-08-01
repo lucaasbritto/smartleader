@@ -4,6 +4,8 @@ namespace App\Services\Task;
 
 use App\Models\Task;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\TaskNotificationMail;
+use Illuminate\Support\Facades\Mail;
 
 class TaskService{
     public function getTasks(int $perPage = 10, int $page = 1)
@@ -41,7 +43,7 @@ class TaskService{
     public function createTask(array $data){
         $user = Auth::user();
 
-        return Task::create([
+        $task = Task::create([
             'title' => $data['title'],
             'description' => $data['description'] ?? '',
             'status' => $data['status'],
@@ -50,6 +52,11 @@ class TaskService{
             'user_id' => $user->id,
             'company_id' => $user->company_id,
         ]);
+
+        Mail::to($user->email)
+        ->queue(new TaskNotificationMail($task, 'criada'));
+
+        return $task;
     }
 
     public function updateTask(Task $task, array $data){
