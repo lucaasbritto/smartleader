@@ -1,0 +1,20 @@
+.q-page {
+  min-height: 100vh;
+}
+
+.rounded-borders {
+  border-radius: 12px;
+}
+
+.text-truncate {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.q-item-section span.text-truncate {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}

@@ -2,7 +2,7 @@
   <q-drawer
     show-if-above
     side="left"
-    width="220"
+    :width="220"
     class="bg-dark flex flex-column"
   >
     <div class="q-pa-md drawer-header text-grey">
@@ -31,7 +31,7 @@
         <q-icon name="assignment" size="12px" class="section-icon" />
         Tarefas
       </div>
-      <q-item clickable v-ripple to="/tasks" active-class="menu-item-active" dense>
+      <q-item clickable v-ripple to="/" exact active-class="menu-item-active" dense>
         <q-item-section avatar>
           <q-icon name="checklist" size="14px" />
         </q-item-section>

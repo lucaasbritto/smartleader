@@ -4,6 +4,7 @@ import store from '../stores'
 import LoginView from '../views/LoginView/LoginView.vue'
 import DashboardView from '../views/DashboardView/DashboardView.vue'
 import RegisterView from '../views/RegisterView/RegisterView.vue'
+import ExportsView from '@/views/ExportsView/ExportsView.vue'
 
 Vue.use(VueRouter)
 
@@ -22,6 +23,12 @@ const routes = [
     path: '/',
     name: 'Dashboard',
     component: DashboardView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/exports',
+    name: 'Exports',
+    component: ExportsView,
     meta: { requiresAuth: true },
   },
 ]

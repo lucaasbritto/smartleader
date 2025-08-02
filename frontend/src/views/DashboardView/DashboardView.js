@@ -78,7 +78,7 @@ export default {
     getPriorityColor,
 
     ...mapActions('tasks', ['createTask', 'fetchTasks','updateTask','deleteTask']),
-    ...mapActions('exports', ['loadExportList', 'triggerExport']),
+    ...mapActions('exports', ['triggerExport']),
 
     async insertTask(data) {
       this.createLoading = true;
@@ -144,47 +144,10 @@ export default {
         notifyWarning('Gerando exportação...')               
         await this.triggerExport();
         
-        notifySuccess('Exportação concluida. Você poderá baixar o arquivo em "Exportações')
-        await this.loadExportList();
+        notifySuccess('Exportação concluida. Você poderá baixar o arquivo em "Exportações');        
 
       } catch (error) {        
         notifyError('Erro ao iniciar exportação');
-      }
-    },
-
-    async downloadExport(file) {
-      if (this.downloadingIds.includes(file.id)) return
-
-      this.downloadingIds.push(file.id)
-
-      try {
-        notifyWarning('Realizando Download...')
-        const response = await this.$store.dispatch('exports/downloadExportFile', file.id)
-
-        const blob = new Blob([response.data], {
-          type: response.headers['content-type'] || 'application/octet-stream'
-        })
-
-        const url = window.URL.createObjectURL(blob)
-        const link = document.createElement('a')
-
-        const filename = file.filename || `export-${new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-')}.xlsx`
-
-        link.href = url
-        link.setAttribute('download', filename)
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
-        window.URL.revokeObjectURL(url)
-
-        notifySuccess('Download realizado com sucesso!')
-
-      } catch (error) {
-        console.error('Download error:', error)        
-        notifyError('Erro ao fazer download do arquivo.')
-
-      } finally {        
-        this.downloadingIds = this.downloadingIds.filter(id => id !== file.id)
       }
     },
 
@@ -235,7 +198,7 @@ export default {
         status: 'Pendente',
         priority: 'Média',
         deadline: ''
-      },
+      }
       this.editTask = null
       this.isEditMode = false
     },
@@ -256,6 +219,5 @@ export default {
 
   mounted() {
     this.onRequest({ pagination: this.pagination });
-    this.loadExportList();
   }
 }

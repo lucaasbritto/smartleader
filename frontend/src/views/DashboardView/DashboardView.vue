@@ -157,35 +157,6 @@
       />
 
     </q-card>
-
-
-    <div class="q-mt-md">
-      <h6>Arquivos exportados:</h6>
-      <q-list bordered padding>
-        <q-item
-          v-for="file in exports"
-          :key="file.id"
-          clickable
-          @click="downloadExport(file)"
-        >
-          <q-item-section>
-            {{ file.filename }} - Status: {{ file.status }} - Criado em: {{ new Date(file.created_at).toLocaleString() }}
-          </q-item-section>
-          <q-item-section side>
-            <q-btn
-              dense
-              flat
-              icon="download"
-              color="primary"
-              @click.stop="downloadExport(file)"
-              :disable="file.status !== 'done'"
-              :title="file.status === 'done' ? 'Baixar' : 'Arquivo ainda não disponível'"
-            />
-          </q-item-section>
-        </q-item>
-      </q-list>
-    </div>
-
   </div>
 </template>
 
