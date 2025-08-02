@@ -28,5 +28,8 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/{id}/download', [ExportController::class, 'download']);
     });
 
-    Route::post('/users', [UserController::class, 'store']);
+    Route::prefix('users')->group(function () {
+        Route::get('/', [UserController::class, 'index']);
+        Route::post('/', [UserController::class, 'store']);
+    });
 });

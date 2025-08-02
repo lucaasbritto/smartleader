@@ -15,16 +15,24 @@
       class="menu-list flex-grow scroll"
       style="overflow-y:auto;"
     >
-      <div class="section-title">
-        <q-icon name="person_add" size="12px" class="section-icon" />
-        Cadastro
-      </div>
-      <q-item clickable v-ripple to="/users/new" active-class="menu-item-active" dense>
-        <q-item-section avatar>
-          <q-icon name="add_circle_outline" size="14px" />
-        </q-item-section>
-        <q-item-section> Novo Cadastro </q-item-section>
-      </q-item>
+       <template v-if="isAdmin">
+        <div class="section-title">
+          <q-icon name="person" size="12px" class="section-icon" />
+          Usuários
+        </div>
+        <q-item clickable v-ripple to="/users/new" active-class="menu-item-active" dense>
+          <q-item-section avatar>
+            <q-icon name="person_add" size="14px" />
+          </q-item-section>
+          <q-item-section> Novo Usuário </q-item-section>
+        </q-item>
+        <q-item clickable v-ripple to="/users" active-class="menu-item-active" dense>
+          <q-item-section avatar>
+            <q-icon name="group" size="14px" />
+          </q-item-section>
+          <q-item-section> Listar Usuários </q-item-section>
+        </q-item>
+      </template>
       
 
       <div class="section-title q-mt-md">
@@ -55,10 +63,19 @@
 </template>
 
 <script>
-export default {
-  name: "SideMenu",
+  import { mapGetters } from 'vuex';
 
-}
+  export default {
+    name: 'SideMenu',
+    computed: {
+      ...mapGetters('user', ['user']),
+      isAdmin() {
+        console.log(this.user);
+        return this.user?.is_admin === 1
+      }
+    }
+  }
+
 </script>
 
 <style scoped lang="scss">

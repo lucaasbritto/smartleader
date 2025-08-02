@@ -9,3 +9,8 @@ export async function Usercreate(data) {
   const response = await api.post('/users', data)
   return response.data
 }
+
+export async function listUsers() {
+  const response = await api.get('/users')
+  return response.data
+}

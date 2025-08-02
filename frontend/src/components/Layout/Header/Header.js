@@ -31,7 +31,6 @@ export default {
     },
 
      openCreateUserModal() {
-      console.log("teste");
       this.showUserDialog = true
     }
   }

@@ -1,0 +1,59 @@
+::v-deep(.my-table) {
+  border-radius: 8px;
+  overflow: hidden;
+
+  thead {
+    background-color: #f0f4f8;
+
+    th {
+      font-weight: 600;
+      color: #333;
+      padding: 2px 4px;
+      font-size: 13px;
+      text-align: center;
+    }
+  }
+
+  tbody tr {
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: #f9fbfd;
+    }
+
+    td {
+       padding: 2px 4px;
+      font-size: 13px;
+      color: #444;
+      text-align: center;
+      vertical-align: middle;
+    }
+  }
+
+  .q-btn {
+    margin-left: 2px;
+    padding: 2px;
+    min-width: 28px;
+    height: 28px;
+  }
+
+  .truncate-text {
+     max-width: 12vw;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .q-table__bottom {
+    background-color: #f0f4f8;
+    padding: 8px 16px;
+    border-top: 1px solid #ddd;
+
+    .q-pagination,
+    .q-select {
+      font-size: 13px;
+    }
+  }
+}
