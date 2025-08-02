@@ -1,3 +1,13 @@
+import { Loading } from 'quasar'
+
+export function showLoading(message = 'Carregando...') {
+  Loading.show({ message })
+}
+
+export function hideLoading() {
+  Loading.hide()
+}
+
 export function formatDateBR(dateStr) {
   if (!dateStr) return ''
   const [year, month, day] = dateStr.split('T')[0].split('-')

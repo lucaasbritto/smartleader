@@ -6,6 +6,7 @@ use App\Models\Task;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Events\TaskStatus;
+use App\Jobs\ExportTasksJob;
 
 class TaskService{
     public function getTasks(int $perPage = 10, int $page = 1)
@@ -73,6 +74,11 @@ class TaskService{
     public function deleteTask($id){
         $task = Task::findOrFail($id);
         $task->delete();
+    }
+
+    public function exportTasks(string $format = 'xlsx'){
+        $user = Auth::user();
+        ExportTasksJob::dispatch($user->id, $format);
     }
     
 }

@@ -48,4 +48,14 @@ class TaskController extends Controller
             return response()->json(['error' => 'Erro ao excluir a tarefa.'], 500);
         }
     }
+
+    public function export(Request $request){
+        $format = $request->get('format', 'xlsx');
+
+        $this->taskService->exportTasks($format);
+
+        return response()->json([
+            'message' => 'Exportação iniciada. Você será notificado quando estiver pronta para download.'
+        ]);
+    }
 }

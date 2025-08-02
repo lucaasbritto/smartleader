@@ -1,6 +1,6 @@
 import { mapGetters, mapActions } from 'vuex'
-import { getStatusColor, getPriorityColor, formatDateBR } from '@/utils/taskUtils';
-import { notifySuccess, notifyError } from '@/utils/notify'
+import { getStatusColor, getPriorityColor, formatDateBR} from '@/utils/taskUtils';
+import { notifySuccess, notifyError, notifyWarning } from '@/utils/notify'
 import TaskDialog from '@/components/Task/TaskDialog/TaskDialog.vue'
 import TaskView from '@/components/Task/TaskView/TaskView.vue'
 import TaskViewDialog from '@/components/Task/TaskViewDialog/TaskViewDialog.vue'
@@ -30,6 +30,7 @@ export default {
       deleteDialog: false,
       taskToDelete: null,
       deleteLoading: false,
+      downloadingIds: [],
       form: {
         title: '',
         description: '',
@@ -62,7 +63,8 @@ export default {
   },
 
   computed: {
-    ...mapGetters('tasks', ['tasks', 'total'])
+    ...mapGetters('tasks', ['tasks', 'total']),
+    ...mapGetters('exports', ['exports']),
   },
 
   watch: {
@@ -76,6 +78,7 @@ export default {
     getPriorityColor,
 
     ...mapActions('tasks', ['createTask', 'fetchTasks','updateTask','deleteTask']),
+    ...mapActions('exports', ['loadExportList', 'triggerExport']),
 
     async insertTask(data) {
       this.createLoading = true;
@@ -133,6 +136,55 @@ export default {
         notifyError('Erro ao excluir tarefa.')
       } finally {
         this.deleteLoading  = false        
+      }
+    },
+
+    async exportExcel() {
+      try {
+        notifyWarning('Gerando exportação...')               
+        await this.triggerExport();
+        
+        notifySuccess('Exportação concluida. Você poderá baixar o arquivo em "Exportações')
+        await this.loadExportList();
+
+      } catch (error) {        
+        notifyError('Erro ao iniciar exportação');
+      }
+    },
+
+    async downloadExport(file) {
+      if (this.downloadingIds.includes(file.id)) return
+
+      this.downloadingIds.push(file.id)
+
+      try {
+        notifyWarning('Realizando Download...')
+        const response = await this.$store.dispatch('exports/downloadExportFile', file.id)
+
+        const blob = new Blob([response.data], {
+          type: response.headers['content-type'] || 'application/octet-stream'
+        })
+
+        const url = window.URL.createObjectURL(blob)
+        const link = document.createElement('a')
+
+        const filename = file.filename || `export-${new Date().toISOString().slice(0, 19).replace(/[:T]/g, '-')}.xlsx`
+
+        link.href = url
+        link.setAttribute('download', filename)
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+        window.URL.revokeObjectURL(url)
+
+        notifySuccess('Download realizado com sucesso!')
+
+      } catch (error) {
+        console.error('Download error:', error)        
+        notifyError('Erro ao fazer download do arquivo.')
+
+      } finally {        
+        this.downloadingIds = this.downloadingIds.filter(id => id !== file.id)
       }
     },
 
@@ -203,6 +255,7 @@ export default {
   },
 
   mounted() {
-    this.onRequest({ pagination: this.pagination })
+    this.onRequest({ pagination: this.pagination });
+    this.loadExportList();
   }
 }

@@ -5,7 +5,6 @@ export function notifySuccess(message = 'Operação realizada com sucesso!') {
     type: 'positive',
     message,
     icon: 'check_circle',
-    color: 'green',
     position: 'top-right',
   })
 }
@@ -15,7 +14,15 @@ export function notifyError(message = 'Ocorreu um erro.') {
     type: 'negative',
     message,
     icon: 'error',
-    color: 'red',
+    position: 'top-right',
+  })
+}
+
+export function notifyWarning(message = 'Atenção') {
+  Notify.create({
+    type: 'warning',
+    message,
+    icon: 'warning',
     position: 'top-right',
   })
 }

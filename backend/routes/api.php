@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Task\TaskController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Export\ExportController;
 
 
 Route::post('/login', [AuthController::class, 'login']);
@@ -19,6 +20,12 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/', [TaskController::class, 'store']);
         Route::put('/{task}', [TaskController::class, 'update']);
         Route::delete('/{task}', [TaskController::class, 'destroy']);
+    });
+
+    Route::prefix('exports')->group(function () {
+        Route::get('/', [ExportController::class, 'index']);
+        Route::post('/', [ExportController::class, 'store']);
+        Route::get('/{id}/download', [ExportController::class, 'download']);
     });
 
     Route::post('/users', [UserController::class, 'store']);
