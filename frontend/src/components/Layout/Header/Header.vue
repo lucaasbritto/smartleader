@@ -89,63 +89,14 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
-import UserCreateModal from '@/components/UserCreateModal.vue'
+import headerScript from './Header.js'
 
-export default {
-  name: 'AppHeader',
+export default headerScript
 
-  components: { 
-    UserCreateModal
-  },
-
-  data() {
-    return {      
-      settingsMenu: false,
-      loading: false,
-      showCreateUserModal: false,
-      error: '',
-      errors: {}
-    }
-  },
-
-  computed: {
-    ...mapState('user', ['user'])
-  },
-
-  methods: {
-    ...mapActions('user', ['logout']),
-
-    async handleLogout() {
-      await this.logout() 
-      this.$router.push('/login')
-    },
-
-     openCreateUserModal() {
-      console.log("teste");
-      this.showUserDialog = true
-    }
-  }
-}
 </script>
 
-<style scoped>
 
-.q-header {
-  border-bottom: 1px solid #eee;
-}
+<style scoped lang="scss">
+  @use './Header.scss'; 
 
-.text-caption {
-  font-size: 14px;
-}
-
-.welcomeText{
-    font-size: 11px; 
-    line-height: 1;
-}
-
-.q-separator{
-    height: 32px; 
-    opacity: 0.5; background:red
-}
 </style>

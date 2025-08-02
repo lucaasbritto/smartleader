@@ -1,6 +1,8 @@
 <template>
-  <q-layout view="hHh lpR fFf">
+  <q-layout view="hHh LpR fFf">
     <AppHeader v-if="isLoggedIn" />
+
+    <side-menu v-if="isLoggedIn" />
 
     <q-page-container>
       <router-view />
@@ -9,13 +11,15 @@
 </template>
 
 <script >
-import AppHeader from '@/components/Layout/Header.vue'
+import AppHeader from '@/components/Layout/Header/Header.vue'
+import SideMenu from '@/components/Layout/SideMenu/SideMenu.vue'
 import { mapState } from 'vuex'
 
   export default {
     name: 'App',
     components: {
-      AppHeader
+      AppHeader,
+      SideMenu
     },
     computed: {
        ...mapState('user', ['user']),
@@ -27,12 +31,4 @@ import { mapState } from 'vuex'
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
