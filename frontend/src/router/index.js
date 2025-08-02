@@ -5,6 +5,7 @@ import LoginView from '../views/LoginView/LoginView.vue'
 import DashboardView from '../views/DashboardView/DashboardView.vue'
 import RegisterView from '../views/RegisterView/RegisterView.vue'
 import ExportsView from '@/views/ExportsView/ExportsView.vue'
+import UserView from '@/views/UserView/UserView.vue'
 
 Vue.use(VueRouter)
 
@@ -29,6 +30,12 @@ const routes = [
     path: '/exports',
     name: 'Exports',
     component: ExportsView,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/users/new',
+    name: 'User',
+    component: UserView,
     meta: { requiresAuth: true },
   },
 ]
