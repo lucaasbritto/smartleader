@@ -14,8 +14,20 @@
       padding
       class="menu-list flex-grow scroll"
       style="overflow-y:auto;"
-    >
-       <template v-if="isAdmin">
+    >    
+
+      <div class="section-title q-mt-md">
+        <q-icon name="assignment" size="12px" class="section-icon" />
+        Tarefas
+      </div>
+      <q-item clickable v-ripple to="/" exact active-class="menu-item-active" dense>
+        <q-item-section avatar>
+          <q-icon name="checklist" size="14px" />
+        </q-item-section>
+        <q-item-section> Gerenciar Tarefas </q-item-section>
+      </q-item>
+
+      <template v-if="isAdmin">
         <div class="section-title">
           <q-icon name="person" size="12px" class="section-icon" />
           Usuários
@@ -33,18 +45,6 @@
           <q-item-section> Listar Usuários </q-item-section>
         </q-item>
       </template>
-      
-
-      <div class="section-title q-mt-md">
-        <q-icon name="assignment" size="12px" class="section-icon" />
-        Tarefas
-      </div>
-      <q-item clickable v-ripple to="/" exact active-class="menu-item-active" dense>
-        <q-item-section avatar>
-          <q-icon name="checklist" size="14px" />
-        </q-item-section>
-        <q-item-section> Gerenciar Tarefas </q-item-section>
-      </q-item>
 
 
       <div class="section-title q-mt-md">

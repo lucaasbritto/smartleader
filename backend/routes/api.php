@@ -28,7 +28,7 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/{id}/download', [ExportController::class, 'download']);
     });
 
-    Route::prefix('users')->group(function () {
+    Route::middleware('is_admin')->prefix('users')->group(function () {
         Route::get('/', [UserController::class, 'index']);
         Route::post('/', [UserController::class, 'store']);
     });

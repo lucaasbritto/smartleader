@@ -37,13 +37,13 @@ const routes = [
     path: '/users/new',
     name: 'User',
     component: UserView,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true , requiresAdmin: true},
   },
   {
     path: '/users',
     name: 'UserList',
     component: UserListView,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, requiresAdmin: true },
   },
 ]
 
@@ -72,6 +72,13 @@ router.beforeEach(async (to, from, next) => {
 
    if ((to.path === '/login' || to.path === '/register') && isAuthenticated) {
     return next('/')
+  }
+
+  if (to.matched.some(record => record.meta.requiresAdmin)) {
+    const user = store.state.user.user
+    if (!user || user.is_admin !== 1) {
+      return next('/')
+    }
   }
 
   next()
