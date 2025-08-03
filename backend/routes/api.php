@@ -10,7 +10,6 @@ use App\Http\Controllers\Export\ExportController;
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
-Route::middleware('auth:api')->get('/me', [AuthController::class, 'me']);
 
 Route::middleware('auth:api')->group(function () {
     Route::get('/me', [AuthController::class, 'me']);
