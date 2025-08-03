@@ -32,13 +32,13 @@
           <q-icon name="person" size="12px" class="section-icon" />
           Usuários
         </div>
-        <q-item clickable v-ripple to="/users/new" active-class="menu-item-active" dense>
+        <q-item clickable v-ripple to="/users/new" exact active-class="menu-item-active" dense>
           <q-item-section avatar>
             <q-icon name="person_add" size="14px" />
           </q-item-section>
           <q-item-section> Novo Usuário </q-item-section>
         </q-item>
-        <q-item clickable v-ripple to="/users" active-class="menu-item-active" dense>
+        <q-item clickable v-ripple to="/users" exact active-class="menu-item-active" dense>
           <q-item-section avatar>
             <q-icon name="group" size="14px" />
           </q-item-section>
