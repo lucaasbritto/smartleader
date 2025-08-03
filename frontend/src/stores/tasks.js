@@ -60,6 +60,15 @@ const actions = {
     }
   },
 
+  async updateStatusTask({ commit }, { id, status = 'concluido' }) {
+    try {
+      const response =  await tasksApi.updateStatus(id, { status })
+      commit('UPDATE_TASK', response)
+    } catch (error) {
+      console.error('Erro ao marcar como concluída:', error)
+    }
+  },
+
   async deleteTask({ commit }, taskId) {
     try {
       await tasksApi.delete(taskId)

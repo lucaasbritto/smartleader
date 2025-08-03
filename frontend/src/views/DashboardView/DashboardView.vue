@@ -106,11 +106,12 @@
               <q-btn
                 dense
                 flat
-                icon="done"
+                :icon="props.row.status === 'concluída' ? 'task_alt' : 'done'"
                 color="green"
-                @click="confirmUpdated(props.row.id)"
-                title="Marcar como concluída"
+                @click="openConfirmDialog(props.row.id)"
+                :title="props.row.status === 'concluída' ? 'Tarefa concluida' : 'Marcar como concluída'"
                 size="sm"
+                :disable="props.row.status === 'concluída'"
               />
               
               <q-separator  vertical inset/>
@@ -120,7 +121,7 @@
               flat
               icon="delete"
               color="red"
-              @click="openDeleteTask(props.row)"
+              @click="openDeleteDialog(props.row)"
               title="Remover tarefa"
               size="sm"
             />
@@ -149,11 +150,28 @@
         :task="selectedTask"
       />
 
-      <confirm-delete-dialog
+      <confirm-dialog
         v-model="deleteDialog"
-        :task="taskToDelete"
-        :loading="deleteLoading"
+        :loading="loading"
+        :title="'Confirmar Exclusão'"
+        :message="`Tem certeza que deseja excluir a tarefa?`"
+        ok-label="Excluir"
+        ok-color="negative"
+        icon="delete"
+        icon-color="red"
         @confirm="confirmDeleteTask"
+      />
+
+      <confirm-dialog
+        v-model="confirmDialog"
+        :loading="loading"
+        :title="'Marcar como Concluída'"
+        :message="`Deseja realmente marcar a tarefa como concluída?`"
+        ok-label="Concluir"
+        ok-color="green"
+        icon="done"
+        icon-color="green"
+        @confirm="confirmUpdated"
       />
 
     </q-card>

@@ -16,6 +16,11 @@ export default {
     return response.data
   },
 
+  async updateStatus(id, data) {
+    const response = await api.patch(`/tasks/${id}/status`, data)
+    return response.data
+  },
+
   async delete(id) {
     const response = await api.delete(`/tasks/${id}`)
     return response.data

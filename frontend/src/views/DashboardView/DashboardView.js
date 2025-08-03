@@ -4,7 +4,7 @@ import { notifySuccess, notifyError, notifyWarning } from '@/utils/notify'
 import TaskDialog from '@/components/Task/TaskDialog/TaskDialog.vue'
 import TaskView from '@/components/Task/TaskView/TaskView.vue'
 import TaskViewDialog from '@/components/Task/TaskViewDialog/TaskViewDialog.vue'
-import ConfirmDeleteDialog from '@/components/ConfirmDeleteDialog/ConfirmDeleteDialog.vue'
+import ConfirmDialog from '@/components/ConfirmDialog/ConfirmDialog.vue'
 import TaskFilters from '@/components/Task/TaskFilters/TaskFilters.vue'
 
 export default {
@@ -14,7 +14,7 @@ export default {
     TaskDialog,
     TaskView, 
     TaskViewDialog,
-    ConfirmDeleteDialog,
+    ConfirmDialog,
     TaskFilters
   },
 
@@ -29,8 +29,9 @@ export default {
       selectedTask: null,
       deleteDialog: false,
       taskToDelete: null,
-      deleteLoading: false,
       downloadingIds: [],
+      confirmDialog: false,
+      taskToCompletedId: null,      
       form: {
         title: '',
         description: '',
@@ -77,7 +78,7 @@ export default {
     getStatusColor,
     getPriorityColor,
 
-    ...mapActions('tasks', ['createTask', 'fetchTasks','updateTask','deleteTask']),
+    ...mapActions('tasks', ['createTask', 'fetchTasks','updateTask','updateStatusTask','deleteTask']),
     ...mapActions('exports', ['triggerExport']),
 
     async insertTask(data) {
@@ -103,6 +104,23 @@ export default {
       }
     },
 
+    async confirmUpdated() {      
+      const taskId = this.taskToCompletedId;      
+      this.loading = true
+
+      try {
+        await this.updateStatusTask({ id: taskId, status: 'concluída' })
+        notifySuccess('Tarefa concluida com sucesso!')
+      } catch {
+        notifyError('Erro ao concluir a tarefa')
+      } finally {
+        this.loading = false;
+        this.confirmDialog = false;
+      }
+    },
+
+    
+
     async onRequest({ pagination }) {
       this.loading = true;
       try {
@@ -126,7 +144,7 @@ export default {
     },
 
     async confirmDeleteTask() {
-      this.deleteLoading = true
+      this.loading = true
       try {
         await this.deleteTask(this.taskToDelete.id)
         notifySuccess('Tarefa excluída com sucesso!')
@@ -135,7 +153,7 @@ export default {
       } catch (error) {
         notifyError('Erro ao excluir tarefa.')
       } finally {
-        this.deleteLoading  = false        
+        this.loading  = false        
       }
     },
 
@@ -186,7 +204,12 @@ export default {
       this.dialogViewVisible = true
     },
 
-    openDeleteTask(task) {
+    openConfirmDialog(task) {
+      this.taskToCompletedId = task
+      this.confirmDialog = true
+    },
+
+    openDeleteDialog(task) {
       this.taskToDelete = task
       this.deleteDialog = true
     },

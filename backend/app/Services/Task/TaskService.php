@@ -71,6 +71,25 @@ class TaskService{
         return $task;
     }
 
+    public function updateTaskStatus($id, $status){
+        $task = Task::findOrFail($id);
+
+        if ($task->company_id !== Auth::user()->company_id) {
+            abort(403, 'Acesso não autorizado.');
+        }
+
+        $oldStatus = $task->status;
+
+        $task->status = $status;
+        $task->save();
+
+        if ($oldStatus !== 'concluída' && $task->status === 'concluída') {
+            event(new TaskStatus($task, 'concluída'));
+        }
+
+        return $task;
+    }
+
     public function deleteTask($id){
         $task = Task::findOrFail($id);
         $task->delete();

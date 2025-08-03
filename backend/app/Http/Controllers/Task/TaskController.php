@@ -40,6 +40,16 @@ class TaskController extends Controller
         return response()->json($updatedTask);
     }
 
+     public function updateStatus(Request $request, $id){
+        $request->validate([
+            'status' => 'required|string|in:concluída,pendente,em andamento',
+        ]);
+
+        $task = $this->taskService->updateTaskStatus($id, $request->status);
+
+        return response()->json($task);
+    }
+
     public function destroy($id){
         try {
             $this->taskService->deleteTask($id);
