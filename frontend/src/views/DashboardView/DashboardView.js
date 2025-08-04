@@ -66,6 +66,7 @@ export default {
   computed: {
     ...mapGetters('tasks', ['tasks', 'total']),
     ...mapGetters('exports', ['exports']),
+    ...mapGetters('user', ['user']),
   },
 
   watch: {
@@ -241,6 +242,15 @@ export default {
   },
 
   mounted() {
+     if (this.user?.is_admin === 1) {
+      this.columns.splice(5, 0, {
+        name: 'responsible',
+        label: 'Responsável',
+        field: 'user_name',
+        align: 'center'
+      })
+    }
+
     this.onRequest({ pagination: this.pagination });
   }
 }

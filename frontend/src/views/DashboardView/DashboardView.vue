@@ -77,6 +77,12 @@
           </q-td>
         </template>
 
+        <template v-slot:body-cell-responsible="props">
+          <q-td :props="props">
+            {{ props.row.user.name || '-' }}
+          </q-td>
+        </template>
+
         <template v-slot:body-cell-actions="props">
           <q-td class="q-pa-none" align="right">
               <div class="row no-wrap items-center justify-center q-gutter-xs">
