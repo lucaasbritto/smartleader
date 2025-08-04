@@ -4,7 +4,7 @@
 
     <side-menu v-if="isLoggedIn" />
 
-    <q-page-container>
+    <q-page-container class="page-bg">
       <router-view />
     </q-page-container>
   </q-layout>
@@ -31,4 +31,13 @@ import { mapState } from 'vuex'
 </script>
 
 <style>
+.page-bg {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)),
+    url('@/assets/images/bg-smart.avif');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  min-height: 100vh;
+}
 </style>
