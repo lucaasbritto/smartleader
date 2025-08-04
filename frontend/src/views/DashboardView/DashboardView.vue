@@ -77,7 +77,7 @@
           </q-td>
         </template>
 
-        <template v-slot:body-cell-responsible="props">
+        <template v-slot:body-cell-creator="props">
           <q-td :props="props">
             {{ props.row.user.name || '-' }}
           </q-td>

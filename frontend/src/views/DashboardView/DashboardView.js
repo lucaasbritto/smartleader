@@ -244,8 +244,8 @@ export default {
   mounted() {
      if (this.user?.is_admin === 1) {
       this.columns.splice(5, 0, {
-        name: 'responsible',
-        label: 'Responsável',
+        name: 'creator',
+        label: 'Criador',
         field: 'user_name',
         align: 'center'
       })
