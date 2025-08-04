@@ -123,7 +123,7 @@ DB_DATABASE=laravel
 14. **Os Seeders criam**
   - 1 empresa
   - 1 admin
-  - 5 usuários
+  - 4 usuários
   - Tarefas
 
 
@@ -136,7 +136,7 @@ DB_DATABASE=laravel
 | Tipo    | Email                            | Senha                      |
 |---------|----------------------------------|----------------------------|
 | Admin   | admin@teste.com                  | 123456                     |
-| Usuario | teste@teste.com                  | 123456                     |
+| Usuario | user@teste.com                   | 123456                     |
 
 ## OBS: Se voce criou a empresa no setup inicial pode usar a senha que criou
 
