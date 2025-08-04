@@ -12,7 +12,18 @@ services:
       - db
     networks:
       - smart-network
-
+  queue:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: laravel_queue_smart
+    command: php artisan queue:work --verbose --tries=3 --timeout=90
+    volumes:
+      - ./backend:/var/www/html
+    depends_on:
+      - db
+    networks:
+      - smart-network
   webserver:
     image: nginx:alpine
     container_name: laravel_web_smart

@@ -95,32 +95,28 @@ DB_DATABASE=laravel
   php artisan jwt:secret
 ```
 
-9. **Rode as migrações e os seeders**
-```shell
-  php artisan migrate --seed
-```
-
-10. **Crie a tabela dos jobs**
+9. **Crie a tabela dos jobs**
 ```shell
   php artisan queue:table
 ```
 
-11. **Execute a migração**
+10. **Rode as migrações e os seeders**
 ```shell
   php artisan migrate --seed
 ```
 
-12. **Cadastre a sua empresa e Usuario Admin**
+11. **Cadastre a sua empresa e Usuario Admin**
 ```shell
   php artisan setup:initial
 ```
 
-12. **Rodar fila de E-mails**
-```shell
-  php artisan queue:work
+```md
+12. **O serviço de fila já é iniciado automaticamente via Docker**
+- Não é necessário rodar `php artisan queue:work` manualmente.
+- As filas são executadas em um container separado (`queue`) configurado no `docker-compose.yml`.
 ```
 
-14. **Os Seeders criam**
+13. **Os Seeders criam**
   - 1 empresa
   - 1 admin
   - 4 usuários
